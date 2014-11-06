@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using LocalAccountsApp.Controllers;
+using System.Collections.Generic;
+using System.Data.Entity;
 
 namespace LocalAccountsApp.Models
 {
@@ -16,6 +19,7 @@ namespace LocalAccountsApp.Models
             // Add custom user claims here
             return userIdentity;
         }
+        public virtual List<Activity> Activities { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -24,6 +28,9 @@ namespace LocalAccountsApp.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+
+        public DbSet<Activity> Activities { get; set; }
+        
         
         public static ApplicationDbContext Create()
         {

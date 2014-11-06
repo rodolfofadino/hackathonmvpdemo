@@ -5,6 +5,7 @@
 
     self.result = ko.observable();
     self.user = ko.observable();
+    self.activity = ko.observable();    
 
     self.registerEmail = ko.observable();
     self.registerPassword = ko.observable();
@@ -29,6 +30,30 @@
         $.ajax({
             type: 'GET',
             url: '/api/values',
+            headers: headers
+        }).done(function (data) {
+            self.result(data);
+        }).fail(showError);
+    }
+
+    self.addActivity  = function () {
+        self.result('');
+
+        var token = sessionStorage.getItem(tokenKey);
+        var headers = {};
+        if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+
+        var data = {
+            Description: self.activity(),
+        };
+
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            url: '/api/activity',
             headers: headers
         }).done(function (data) {
             self.result(data);
